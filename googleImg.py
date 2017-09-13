@@ -1,5 +1,6 @@
+#!/usr/bin/python3
 import threading
-import urllib.request
+import urllib.request, urllib.parse
 from bs4 import BeautifulSoup
 
 class GoogleImg(threading.Thread):
@@ -15,8 +16,9 @@ class GoogleImg(threading.Thread):
         print("end: " + self.query)
 
     def get(self):
-        query_url = "https://www.google.co.jp/search?tbm=isch&q=" + self.query
-        headers = {"User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0"}
+        query = urllib.parse.urlencode({ "tbm": "isch", "q": self.query})
+        query_url = "https://www.google.co.jp/search?" + query
+        headers = {"User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0", }
         req = urllib.request.Request(url = query_url, headers = headers)
         res = urllib.request.urlopen(req)
         html = res.read()
