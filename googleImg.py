@@ -2,6 +2,7 @@
 import threading
 import urllib.request, urllib.parse
 from bs4 import BeautifulSoup
+import os
 
 class GoogleImg(threading.Thread):
     def __init__(self, _query, _img_count):
@@ -23,5 +24,8 @@ class GoogleImg(threading.Thread):
         res = urllib.request.urlopen(req)
         html = res.read()
         soup = BeautifulSoup(html, "html.parser")
+
+        if not os.path.isdir(self.query):
+            os.makedirs(self.query)
 
 
