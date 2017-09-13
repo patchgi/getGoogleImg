@@ -5,12 +5,9 @@ from bs4 import BeautifulSoup
 import os
 
 class GoogleImg(threading.Thread):
-    def __init__(self, _query, _img_count):
+    def __init__(self, _query):
         threading.Thread.__init__(self)
         self.query = _query
-        self.img_count = _img_count
-        self.page_count = _img_count / 20
-
     def run(self):
         print("start: " + self.query)
         self.get()
@@ -28,6 +25,15 @@ class GoogleImg(threading.Thread):
         #なんかあまりうまくタグを取得できなかった
         img_tags = soup.findAll("img", class_="rg_ic rg_i")
         img_urls = [img_tag.attrs["data-src"] for img_tag in img_tags if "data-src" in img_tag.attrs.keys()]
-        print(img_urls)
+
         if not os.path.isdir(self.query):
             os.makedirs(self.query)
+
+        for img_url in img_urls:
+            img = urllib.request.urlopen(img_url)
+            path = os.path.join(self.query, os.path.basename(img_url))
+            local = open(path, "wb")
+            local.write(img.read())
+            img.close()
+            local.close()
+

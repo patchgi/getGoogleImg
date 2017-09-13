@@ -1,8 +1,8 @@
 from googleImg import GoogleImg as GI
 
 def main():
-    th1 = GI("hoge1", 1)
-    th2 = GI("jaj", 1)
+    th1 = GI("猫")
+    th2 = GI("犬")
     th1.start()
     th2.start()
 
