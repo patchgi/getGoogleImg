@@ -16,6 +16,7 @@ class GoogleImg(threading.Thread):
         self.get()
         print("end: " + self.query)
 
+
     def get(self):
         query = urllib.parse.urlencode({ "tbm": "isch", "q": self.query})
         query_url = "https://www.google.co.jp/search?" + query
@@ -24,8 +25,9 @@ class GoogleImg(threading.Thread):
         res = urllib.request.urlopen(req)
         html = res.read()
         soup = BeautifulSoup(html, "html.parser")
-
+        #なんかあまりうまくタグを取得できなかった
+        img_tags = soup.findAll("img", class_="rg_ic rg_i")
+        img_urls = [img_tag.attrs["data-src"] for img_tag in img_tags if "data-src" in img_tag.attrs.keys()]
+        print(img_urls)
         if not os.path.isdir(self.query):
             os.makedirs(self.query)
-
-
