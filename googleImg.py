@@ -1,8 +1,7 @@
 #!/usr/bin/python3
-import threading
+import threading, os, random, string
 import urllib.request, urllib.parse
 from bs4 import BeautifulSoup
-import os
 
 class GoogleImg(threading.Thread):
     def __init__(self, _query):
@@ -30,7 +29,7 @@ class GoogleImg(threading.Thread):
 
         for img_url in img_urls:
             img = urllib.request.urlopen(img_url)
-            path = os.path.join(dir_name, os.path.basename(img_url))
+            path = os.path.join(dir_name, ''.join([random.choice(string.ascii_letters + string.digits) for i in range(15)]) + ".jpg")
             local = open(path, "wb")
             local.write(img.read())
             img.close()
