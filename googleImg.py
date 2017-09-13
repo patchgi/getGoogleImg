@@ -16,6 +16,10 @@ class GoogleImg(threading.Thread):
 
     def get(self):
         query_url = "https://www.google.co.jp/search?tbm=isch&q=" + self.query
-        res = urllib.request.urlopen(query_url)
-        data = res.read()
+        headers = {"User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0"}
+        req = urllib.request.Request(url = query_url, headers = headers)
+        res = urllib.request.urlopen(req)
+        html = res.read()
+        soup = BeautifulSoup(html, "html.parser")
+
 
