@@ -22,16 +22,15 @@ class GoogleImg(threading.Thread):
         res = urllib.request.urlopen(req)
         html = res.read()
         soup = BeautifulSoup(html, "html.parser")
-        #なんかあまりうまくタグを取得できなかった
         img_tags = soup.findAll("img", class_="rg_ic rg_i")
         img_urls = [img_tag.attrs["data-src"] for img_tag in img_tags if "data-src" in img_tag.attrs.keys()]
-
-        if not os.path.isdir(self.query):
-            os.makedirs(self.query)
+        dir_name = self.query.replace(" ", "_")
+        if not os.path.isdir(dir_name):
+            os.makedirs(dir_name)
 
         for img_url in img_urls:
             img = urllib.request.urlopen(img_url)
-            path = os.path.join(self.query, os.path.basename(img_url))
+            path = os.path.join(dir_name, os.path.basename(img_url))
             local = open(path, "wb")
             local.write(img.read())
             img.close()

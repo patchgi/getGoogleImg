@@ -1,10 +1,10 @@
 from googleImg import GoogleImg as GI
 
 def main():
-    th1 = GI("猫")
-    th2 = GI("犬")
-    th1.start()
-    th2.start()
+    img1 = GI("お金 ほしい")
+    #img2 = GI("犬")
+    img1.start()
+    #img2.start()
 
 if __name__ == "__main__":
     main()
